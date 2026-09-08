@@ -30,6 +30,13 @@ class TestModel(unittest.TestCase):
         with self.assertRaises(ValueError):
             Model(params)
 
+    def test_Model_setParams(self):
+        params = [2, 3]
+        model = Model()
+        model.setParams(params)
+
+        self.assertEqual(model.params, params)
+
     def test_Model_returns_null_eval_by_default(self):
         model = Model()
         predict = model.eval(42)
