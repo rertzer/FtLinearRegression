@@ -27,10 +27,27 @@ class TestLinearRegression(unittest.TestCase):
 
     def test_LinearRegression_predictedGap(self):
         data = ((1, 2), (3, 3), (5, 18))
-        expected_gaps = np.array((1, 4, 7))
+        expected_gaps = np.array((1, 4, -7))
         lr = LinearRegression()
         lr.model.setParams((1, 2))
         lr.setData(data)
         gaps = lr.getPredictedGap()
         assert gaps is not None
         np.testing.assert_allclose(gaps, expected_gaps)
+
+    def test_LinearRegression_Delta(self):
+
+        data = ((1, 2), (3, 3), (5, 18))
+        expected_delta = np.array((-2 / 3 * 0.01, -22 / 3 * 0.01))
+        lr = LinearRegression()
+        lr.model.setParams((1, 2))
+        lr.setData(data)
+        delta = lr.getDelta()
+        np.testing.assert_allclose(delta, expected_delta)
+
+    def test_LinearRegression_Train(self):
+        data = ((0, 1), (1, 2), (2, 3), (3, 4))
+        lr = LinearRegression()
+        lr.setData(data)
+        lr.train()
+        np.testing.assert_allclose(lr.model.params, np.array((1, 1)))

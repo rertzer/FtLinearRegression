@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Model:
     def __init__(self, params=(0, 0)):
         self.setParams(params)
@@ -6,7 +9,10 @@ class Model:
         return self.params[0] + value * self.params[1]
 
     def setParams(self, params):
-        params = list(params)
+        params = np.array(params)
         if len(params) != 2:
             raise ValueError("Model accepts only 2 parameters")
         self.params = params
+
+    def updateParams(self, update):
+        self.params = self.params - np.array(update)

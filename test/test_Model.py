@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 
 from src.model import Model
 
@@ -12,13 +13,13 @@ class TestModel(unittest.TestCase):
     def test_Model_default_params_are_null(self):
         model = Model()
 
-        self.assertEqual(model.params, [0, 0])
+        np.testing.assert_array_equal(model.params, np.array([0, 0]))
 
     def test_Model_init_params(self):
         params = (42, 24)
         model = Model(params)
 
-        self.assertEqual(model.params, [42, 24])
+        np.testing.assert_array_equal(model.params, np.array(params))
 
     def test_Model_cannot_have_only_one_param(self):
         params = (42,)
@@ -35,7 +36,16 @@ class TestModel(unittest.TestCase):
         model = Model()
         model.setParams(params)
 
-        self.assertEqual(model.params, params)
+        np.testing.assert_array_equal(model.params, np.array(params))
+
+    def test_Model_updateParams(self):
+        params = np.array([2, 3])
+        update = np.array([4, 5])
+        model = Model()
+        model.setParams(params)
+        model.updateParams(update)
+
+        np.testing.assert_array_equal(model.params, params - update)
 
     def test_Model_returns_null_eval_by_default(self):
         model = Model()
