@@ -1,3 +1,4 @@
+import pandas as pd
 import numpy as np
 import unittest
 
@@ -18,22 +19,21 @@ class TestLinearRegression(unittest.TestCase):
         self.assertEqual(lr.learning_step, 0.2)
 
     def test_LinearRegression_set_data(self):
-        data = ((1, 2), (3, 4), (5, 6))
+        data = np.array(((1, 2), (3, 4), (5, 6)))
         lr = LinearRegression()
         lr.setData(data)
-        data = np.array(data)
-
+        assert lr.data is not None
         np.testing.assert_allclose(lr.data, data)
 
-    def test_LinearRegression_predictedGap(self):
+    def test_LinearRegression_predictedDistance(self):
         data = ((1, 2), (3, 3), (5, 18))
-        expected_gaps = np.array((1, 4, -7))
+        expected_distances = np.array((1, 4, -7))
         lr = LinearRegression()
         lr.model.setParams((1, 2))
         lr.setData(data)
-        gaps = lr.getPredictedGap()
+        gaps = lr.getPredictedDistance()
         assert gaps is not None
-        np.testing.assert_allclose(gaps, expected_gaps)
+        np.testing.assert_allclose(gaps, expected_distances)
 
     def test_LinearRegression_Delta(self):
 
@@ -51,3 +51,23 @@ class TestLinearRegression(unittest.TestCase):
         lr.setData(data)
         lr.train()
         np.testing.assert_allclose(lr.model.params, np.array((1, 1)))
+
+    def test_LinearRegresssion_NormData(self):
+        data = ((10, -42), (100, 17), (55, 958), (0, 33))
+        norm_data = np.array(((0.1, 0), (1, 0.059), (0.55, 1.0), (0, 0.075)))
+        lr = LinearRegression()
+        lr.setData(data)
+        lr.normData()
+        assert lr.data is not None
+        np.testing.assert_allclose(lr.data, norm_data)
+
+    def test_LinearRegression_OnData(self):
+        expected_params = np.array((8072, -0.02127))
+        df = pd.read_csv("test/data/data.csv")
+        lr = LinearRegression()
+        lr.setData(df.values)
+        lr.normData()
+        lr.train()
+        print(lr.model.params)
+        print(lr.getParams())
+        np.testing.assert_allclose(lr.getParams(), expected_params, rtol=1e-02)
