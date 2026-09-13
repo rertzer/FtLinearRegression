@@ -10,7 +10,6 @@ def ft_training(argv):
     df = get_data(file_name)
     lr = LinearRegression()
     lr.setData(df.values)
-    print(lr.data)
     lr.normData()
     lr.train()
     print(lr.getParams())

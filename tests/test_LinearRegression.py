@@ -63,7 +63,7 @@ class TestLinearRegression(unittest.TestCase):
 
     def test_LinearRegression_OnData(self):
         expected_params = np.array((8072, -0.02127))
-        df = pd.read_csv("test/data/data.csv")
+        df = pd.read_csv("tests/data/data.csv")
         lr = LinearRegression()
         lr.setData(df.values)
         lr.normData()

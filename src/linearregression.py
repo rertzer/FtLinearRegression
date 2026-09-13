@@ -1,9 +1,10 @@
 import numpy as np
 from .model import Model
+from .utils import *
 
 
 class LinearRegression:
-    def __init__(self, learning_step=0.01):
+    def __init__(self, learning_step=DEFAULT_STEP):
         self.model = Model()
         self.learning_step = learning_step
         self.normalized = False
@@ -22,30 +23,32 @@ class LinearRegression:
     def getParams(self):
         params = self.model.params.copy()
         if self.normalized is True:
-            theta_one = params[1] * self.norm_range[1] / self.norm_range[0]
+            theta_one = params[THETA_ONE] * self.norm_range[Y] / self.norm_range[X]
             theta_zero = (
-                self.norm_mins[1]
-                + params[0] * self.norm_range[1]
-                - theta_one * self.norm_mins[1]
+                self.norm_mins[Y]
+                + params[THETA_ZERO] * self.norm_range[Y]
+                - theta_one * self.norm_mins[Y]
             )
 
-            params[0] = theta_zero
-            params[1] = theta_one
+            params[THETA_ZERO] = theta_zero
+            params[THETA_ONE] = theta_one
         return params
 
     def getPredictedDistance(self):
         assert self.data is not None
-        return self.model.eval(self.data[:, 0]) - self.data[:, 1]
+        return self.model.eval(self.data[:, X]) - self.data[:, Y]
 
     def getDelta(self):
-        assert self.data is not None
         gap = self.getPredictedDistance()
+
         delta_zero = self.learning_step * gap.sum() / gap.size
-        gap = gap * self.data[:, 0]
-        delta_one = gap.sum() / gap.size
-        delta_one = self.learning_step * delta_one
+
+        assert self.data is not None
+        gap = gap * self.data[:, X]
+        delta_one = self.learning_step * gap.sum() / gap.size
+
         return np.array((delta_zero, delta_one))
 
     def train(self):
-        for _ in range(10000):
+        for _ in range(LOOPS):
             self.model.updateParams(self.getDelta())
