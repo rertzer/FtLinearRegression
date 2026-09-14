@@ -1,13 +1,12 @@
 import sys
-import pandas as pd
-import numpy as np
 from .model import Model
+from .data import get_data_txt
 
 
 def ft_predict(argv):
 
     mileage, file_name = get_arguments(argv)
-    params = get_data(file_name)
+    params = get_data_txt(file_name)
     model = Model(params)
     print(params)
     print(
@@ -27,21 +26,6 @@ def get_arguments(argv):
         sys.exit(1)
 
     return argv[1]
-
-
-def get_data(file_name):
-    try:
-        params = np.loadtxt(file_name)
-    except (
-        FileNotFoundError,
-        PermissionError,
-        pd.errors.ParserError,
-        pd.errors.EmptyDataError,
-        UnicodeDecodeError,
-    ) as e:
-        print(f"Error reading {file_name}: {e}", file=sys.stderr)
-        sys.exit(1)
-    return params
 
 
 if __name__ == "__main__":
