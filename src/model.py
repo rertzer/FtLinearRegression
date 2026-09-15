@@ -1,6 +1,6 @@
 import numpy as np
 
-from .utils import *
+from .config import *
 
 
 class Model:

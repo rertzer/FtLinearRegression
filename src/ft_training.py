@@ -14,6 +14,7 @@ def ft_training(argv):
     lr.train()
     print(lr.getParams())
     np.savetxt("thetas.txt", lr.getParams())
+    lr.plot()
 
     return 0
 

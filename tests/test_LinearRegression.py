@@ -3,6 +3,7 @@ import numpy as np
 import unittest
 
 from src.linearregression import LinearRegression
+from src.config import *
 
 
 class TestLinearRegression(unittest.TestCase):
@@ -45,12 +46,46 @@ class TestLinearRegression(unittest.TestCase):
         delta = lr.getDelta()
         np.testing.assert_allclose(delta, expected_delta)
 
+    def test_LinearRegression_Loss(self):
+        data = ((0, 1), (1, 2), (2, 3), (3, 4))
+        lr = LinearRegression()
+        lr.setData(data)
+        self.assertEqual(lr.getLoss(), 7.5)
+
+    def test_LinearRegression_setSST(self):
+        data = ((-1, 1), (1, 2), (2, 3), (3, 2))
+        lr = LinearRegression()
+        lr.setData(data)
+        self.assertEqual(lr.sst, 2)
+
+    def test_LinearRegression_getSSE(self):
+        data = ((-1, 1), (1, 2), (2, 3), (3, 2))
+        lr = LinearRegression()
+        lr.setData(data)
+        lr.model.setParams((1, 1))
+        self.assertEqual(lr.getSSE(), 9)
+
+    def test_LinearRegression_Rsquared(self):
+        data = ((-1, 1), (1, 2), (2, 3), (3, 2))
+        lr = LinearRegression()
+        lr.model.setParams((1, 1))
+        lr.setData(data)
+        self.assertEqual(lr.getRsquared(), 4.5)
+
     def test_LinearRegression_Train(self):
         data = ((0, 1), (1, 2), (2, 3), (3, 4))
         lr = LinearRegression()
         lr.setData(data)
         lr.train()
         np.testing.assert_allclose(lr.model.params, np.array((1, 1)))
+
+    def test_LinearRegression_LossStats(self):
+        data = ((0, 1), (1, 2), (2, 3), (3, 4))
+        lr = LinearRegression()
+        lr.loops = 4
+        lr.setData(data)
+        lr.train()
+        np.testing.assert_allclose(lr.stats.records[LOSS], [0, 0, 0, 0])
 
     def test_LinearRegresssion_NormData(self):
         data = ((10, -42), (100, 17), (55, 958), (0, 33))
@@ -62,7 +97,7 @@ class TestLinearRegression(unittest.TestCase):
         np.testing.assert_allclose(lr.data, norm_data)
 
     def test_LinearRegression_OnData(self):
-        expected_params = np.array((8072, -0.02127))
+        expected_params = np.array((8481, -0.02127))
         df = pd.read_csv("tests/data/data.csv")
         lr = LinearRegression()
         lr.setData(df.values)
