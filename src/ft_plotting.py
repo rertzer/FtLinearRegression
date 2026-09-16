@@ -1,8 +1,9 @@
 import sys
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
-from src.config import THETA_ONE, THETA_ZERO
+from .config import *
 from .data import get_data_csv, get_data_txt
 
 
@@ -52,6 +53,32 @@ def plot_theta(plt, data, theta):
     line_y = theta[THETA_ZERO] + theta[THETA_ONE] * line_x
     plt.plot(line_x, line_y, label="estimation")
     plt.legend()
+
+
+def plot_stats(records):
+    df = pd.DataFrame(records.T, columns=["loss", "R_squared"])
+
+    iterations = np.arange(len(df))
+
+    fig, ax1 = plt.subplots()
+
+    # Loss
+    line1 = ax1.plot(iterations, df["loss"], color="blue", label="Loss")
+    ax1.set_xlabel("Iteration")
+    ax1.set_ylabel("Loss")
+
+    # R²
+    ax2 = ax1.twinx()
+    line2 = ax2.plot(iterations, df["R_squared"], color="red", label="R²")
+    ax2.set_ylabel("R²")
+
+    lines = line1 + line2
+
+    ax1.legend(lines, ["Loss", "R²"])
+
+    fig.suptitle("Training Statistics")
+    plt.savefig("stats.png")
+    plt.close()
 
 
 if __name__ == "__main__":

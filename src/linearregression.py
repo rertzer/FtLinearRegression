@@ -79,8 +79,13 @@ class LinearRegression:
         for i in range(self.loops):
             self.model.updateParams(self.getDelta())
             self.stats.records[LOSS][i] = self.getLoss()
+            self.stats.records[RSQUARED][i] = self.getRsquared()
 
     def plot(self):
+        self.plot_norm_data()
+        plot_stats(self.stats.records)
+
+    def plot_norm_data(self):
         df = pd.DataFrame(self.data, columns=["km", "price"])
         plt = plot_data(df)
         plot_theta(plt, df, self.model.params)

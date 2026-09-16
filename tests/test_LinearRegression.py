@@ -85,7 +85,12 @@ class TestLinearRegression(unittest.TestCase):
         lr.loops = 4
         lr.setData(data)
         lr.train()
-        np.testing.assert_allclose(lr.stats.records[LOSS], [0, 0, 0, 0])
+        print(lr.stats.records)
+        for i in range(lr.loops - 1):
+            with self.subTest():
+                self.assertGreater(
+                    lr.stats.records[LOSS][i], lr.stats.records[LOSS][i + 1]
+                )
 
     def test_LinearRegresssion_NormData(self):
         data = ((10, -42), (100, 17), (55, 958), (0, 33))

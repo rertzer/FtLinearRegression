@@ -12,6 +12,7 @@ def ft_training(argv):
     lr.setData(df.values)
     lr.normData()
     lr.train()
+    print(f"Loss:{lr.stats.getLoss()}, R²: {lr.stats.getRsquared}")
     print(lr.getParams())
     np.savetxt("thetas.txt", lr.getParams())
     lr.plot()

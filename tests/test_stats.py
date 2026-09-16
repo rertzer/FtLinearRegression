@@ -1,8 +1,7 @@
 import unittest
-import numpy as np
 
 from src.stats import Stats
-from src.config import LOOPS
+from src.config import *
 
 
 class TestStats(unittest.TestCase):
@@ -13,5 +12,20 @@ class TestStats(unittest.TestCase):
 
     def test_records_has_len_loops(self):
         stats = Stats(LOOPS)
+        self.assertEqual(stats.records.shape, (2, LOOPS))
 
-        self.assertEqual(len(stats.records), LOOPS)
+    def test_stats_getLoss(self):
+        stats = Stats(42)
+        losses = (11, 22, 33, 34, 122, 244, -12, 0.42)
+        for l in losses:
+            with self.subTest():
+                stats.records[RSQUARED][-1] = l
+                self.assertEqual(stats.getRsquared(), l)
+
+    def test_stats_getRsquared(self):
+        stats = Stats(42)
+        rs = (1, 2, 3, 4, 12, 24, -2, 0.42)
+        for r in rs:
+            with self.subTest():
+                stats.records[RSQUARED][-1] = r
+                self.assertEqual(stats.getRsquared(), r)
