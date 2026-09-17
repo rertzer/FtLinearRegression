@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from .model import Model
 from .config import *
-from .ft_plotting import *
 from .stats import Stats
 
 
@@ -20,6 +20,7 @@ class LinearRegression:
 
     def normData(self):
         if self.data is not None:
+            self.raw_data = self.data.copy()
             self.norm_mins = np.min(self.data, axis=0)
             self.norm_range = np.max(self.data, axis=0) - self.norm_mins
             self.data = (self.data - self.norm_mins) / self.norm_range
@@ -60,6 +61,12 @@ class LinearRegression:
         squares = self.getPredictedDistance() ** 2
         return squares.sum() / len(self.data)
 
+    def getRawLoss(self):
+        raw_model = Model(self.getParams())
+        squares = (raw_model.eval(self.raw_data[:, X]) - self.raw_data[:, Y]) ** 2
+
+        return squares.sum() / len(self.raw_data)
+
     def getRsquared(self):
         return self.getSSE() / self.sst
 
@@ -81,14 +88,44 @@ class LinearRegression:
             self.stats.records[LOSS][i] = self.getLoss()
             self.stats.records[RSQUARED][i] = self.getRsquared()
 
+    def print_results(self):
+        p = self.getParams()
+        print(f"Parameters: Theta 0: {p[0]}, Theta 1: {p[1]}")
+        print(f"Normalized Loss: {self.stats.getLoss()}")
+        print(f"Loss: {self.getRawLoss()}")
+        print(f"R²: {self.stats.getRsquared()}")
+
     def plot(self):
         self.plot_norm_data()
-        plot_stats(self.stats.records)
+        self.plot_raw_data()
+        self.stats.plot()
 
     def plot_norm_data(self):
         df = pd.DataFrame(self.data, columns=["km", "price"])
-        plt = plot_data(df)
-        plot_theta(plt, df, self.model.params)
+        plt = self.plot_data(df)
+        self.plot_theta(plt, df, self.model.params)
 
         plt.savefig("normalized.png")
         plt.close()
+
+    def plot_raw_data(self):
+        df = pd.DataFrame(self.raw_data, columns=["km", "price"])
+        plt = self.plot_data(df)
+        self.plot_theta(plt, df, self.getParams())
+
+        plt.savefig("carprices.png")
+        plt.close()
+
+    def plot_data(self, data):
+        plt.scatter(data["km"], data["price"])
+        plt.title("Car price per mileage")
+        plt.xlabel("km")
+        plt.ylabel("Price")
+
+        return plt
+
+    def plot_theta(self, plt, data, theta):
+        line_x = np.linspace(data["km"].min(), data["km"].max(), 100)
+        line_y = theta[THETA_ZERO] + theta[THETA_ONE] * line_x
+        plt.plot(line_x, line_y, label="estimation")
+        plt.legend()
