@@ -18,3 +18,8 @@ class TestFtPredict(unittest.TestCase):
     def test_FtPredict_getArgumentsWithFile(self):
         args = ft.get_arguments(("toto", "42.42", "toto.txt"))
         self.assertEqual(args, (42.42, "toto.txt"))
+
+    def test_FtPredict_bad_txt_file(self):
+        with self.assertRaises(SystemExit) as cm:
+            ft.get_data_txt("tests/data/badThetas.txt")
+        self.assertEqual(cm.exception.code, 1)

@@ -24,6 +24,16 @@ class TestFtTraining(unittest.TestCase):
             ft.ft_training(("./ft_training", "tests/data/empty_file"))
         self.assertEqual(cm.exception.code, 1)
 
+    def test_FtTraining_MissingDataFile(self):
+        with self.assertRaises(SystemExit) as cm:
+            ft.ft_training(("./ft_training", "tests/data/missingData.csv"))
+        self.assertEqual(cm.exception.code, 1)
+
+    def test_FtTraining_BadDataFile(self):
+        with self.assertRaises(SystemExit) as cm:
+            ft.ft_training(("./ft_training", "tests/data/badData.csv"))
+        self.assertEqual(cm.exception.code, 1)
+
     def test_FtTraining_DataFile(self):
         status = ft.ft_training(("./ft_training", "tests/data/data.csv"))
         self.assertEqual(status, 0)
