@@ -17,15 +17,20 @@ def ft_predict(argv):
 
 
 def get_arguments(argv):
-    if len(argv) == 2:
-        return (float(argv[1]), "thetas.txt")
-    elif len(argv) == 3:
-        return (float(argv[1]), argv[2])
-    else:
-        print("Usage: python3 -m src.ft_predict 42000 <paramfile.txt>")
+    try:
+        if len(argv) == 2:
+            return (float(argv[1]), "thetas.txt")
+        elif len(argv) == 3:
+            return (float(argv[1]), argv[2])
+        else:
+            print(
+                "Usage: python3 -m src.ft_predict 42000 <paramfile.txt>",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+    except ValueError:
+        print("Error: non numerical value", file=sys.stderr)
         sys.exit(1)
-
-    return argv[1]
 
 
 if __name__ == "__main__":
