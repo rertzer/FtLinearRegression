@@ -8,6 +8,8 @@ Although several estimation methods have been developed, Ordinary Least Squares 
 
 Here, we will apply a simple linear regression model to a much more trivial, but hopefully useful, problem: How much worse is my old car getting?
 
+![A car going down a linear regression line](fiat_plot.png)
+
 ## Summary
 
 ft_linear_regression is a simple Python program that predicts the price of a car based on its mileage using a linear regression model.

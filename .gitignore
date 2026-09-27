@@ -219,4 +219,5 @@ __marimo__/
 
 # results 
 *.png
+!fiat_plot.png
 thetas.txt
