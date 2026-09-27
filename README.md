@@ -8,7 +8,7 @@ Although several estimation methods have been developed, Ordinary Least Squares 
 
 Here, we will apply a simple linear regression model to a much more trivial, but hopefully useful, problem: How much worse is my old car getting?
 
-![A car going down a linear regression line](fiat_plot.png)
+![A car going down a linear regression line](doc/fiat_plot.png)
 
 ## Summary
 
@@ -29,7 +29,7 @@ The program also generates plots showing the fitted regression line and the data
 
 ### Dependencies
 
-The programs use the pandas, numpy and pyplotlib libraries.
+The programs use the pandas, numpy and matplotlib libraries.
 If necessary, create a virtual environment to install them.
 
 #### Check if venv is installed
@@ -68,6 +68,18 @@ Run with:
 python3 -m src.ft_training tests/data/data.csv
 ```
 
+Expected output:
+
+```sh
+(.venv) ➜  ft_linear_regression git:(dev) ✗ python3 -m src.ft_training tests/data/data.csv
+Parameters: Theta 0: 8480.966554681116, Theta 1: -0.021271757648460635
+Normalized Loss: 0.020703090879491397
+Loss: 445729.26539909816
+R²: 0.7209137463879318
+
+
+```
+
 The training program creates a `thetas.txt` file containing the estimated model parameters.
 
 Three plots are also generated for the statistics:
@@ -75,6 +87,8 @@ Three plots are also generated for the statistics:
 - `carprices.png`: shows the regression line plotted against the original dataset.
 - `normalized.png`: shows the regression line plotted against the normalized data.
 - `stats.png`: shows the evolution of MSE and $R2$ throughout the training process.
+
+![plot showing the regression line against the data](doc/carprices.png)
 
 File names can be modified in `src/config.py`
 
@@ -123,6 +137,14 @@ Here an exemple:
 ```
 1234
 42
+```
+
+## Unit Test
+
+This project has a full set of unit test. They can be run with:
+
+```sh
+python3 -m unittest discover -s tests
 ```
 
 ## Math
