@@ -6,3 +6,7 @@ LOSS = 0
 RSQUARED = 1
 DEFAULT_STEP = 0.01
 LOOPS = 10000
+STATS_FILE = "stats.png" 
+NORMALIZED_FILE = "normalized.png"
+PLOT_FILE = "carprices.png"
+THETA_FILE = "thetas.txt"

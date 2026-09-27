@@ -105,7 +105,7 @@ class LinearRegression:
         plt = self.plot_data(df)
         self.plot_theta(plt, df, self.model.params)
 
-        plt.savefig("normalized.png")
+        plt.savefig(NORMALIZED_FILE)
         plt.close()
 
     def plot_raw_data(self):
@@ -113,7 +113,7 @@ class LinearRegression:
         plt = self.plot_data(df)
         self.plot_theta(plt, df, self.getParams())
 
-        plt.savefig("carprices.png")
+        plt.savefig(PLOT_FILE)
         plt.close()
 
     def plot_data(self, data):

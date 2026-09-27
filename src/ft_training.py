@@ -2,6 +2,7 @@ import sys
 import numpy as np
 from .data import get_data_csv
 from .linearregression import LinearRegression
+from .config import THETA_FILE
 
 
 def ft_training(argv):
@@ -12,7 +13,7 @@ def ft_training(argv):
     lr.setData(df.values)
     lr.normData()
     lr.train()
-    np.savetxt("thetas.txt", lr.getParams())
+    np.savetxt(THETA_FILE, lr.getParams())
     lr.print_results()
     lr.plot()
 

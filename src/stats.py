@@ -37,5 +37,5 @@ class Stats:
         ax1.legend(lines, ["Loss", "R²"])
 
         fig.suptitle("Training Statistics")
-        plt.savefig("stats.png")
+        plt.savefig("STATS_FILE")
         plt.close()
