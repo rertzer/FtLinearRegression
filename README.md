@@ -88,7 +88,7 @@ Three plots are also generated for the statistics:
 - `normalized.png`: shows the regression line plotted against the normalized data.
 - `stats.png`: shows the evolution of MSE and $R2$ throughout the training process.
 
-![plot showing the regression line against the data](doc/carprices.png)
+![plot showing the regression line against the data](doc/exemple.png)
 
 File names can be modified in `src/config.py`
 
