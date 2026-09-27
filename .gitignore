@@ -219,4 +219,5 @@ __marimo__/
 
 # results 
 *.png
+!doc/*.png
 thetas.txt
