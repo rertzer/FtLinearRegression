@@ -10,10 +10,12 @@ class TestModel(unittest.TestCase):
 
         self.assertIsNotNone(model)
 
-    def test_Model_default_params_are_null(self):
+    def test_Model_default_values(self):
         model = Model()
 
-        np.testing.assert_array_equal(model.params, np.array([0, 0]))
+        with self.subTest():
+            np.testing.assert_array_equal(model.params, np.array([0, 0]))
+            self.assertFalse(model.normalized)
 
     def test_Model_init_params(self):
         params = (42, 24)

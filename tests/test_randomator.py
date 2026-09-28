@@ -21,6 +21,7 @@ class TestRandomator(unittest.TestCase):
 
     def test_Randomator_thetas(self):
         with self.subTest():
-            self.assertEqual(len(self.randomator.thetas), 2)
-            self.assertTrue(0 <= self.randomator.thetas[0] <= 1)
-            self.assertTrue(0 <= self.randomator.thetas[1] <= 1)
+            self.assertIsNotNone(self.randomator.model)
+            thetas = self.randomator.model.params
+            self.assertTrue(0 <= thetas[0] <= 1)
+            self.assertTrue(0 <= thetas[1] <= 1)
