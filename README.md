@@ -57,7 +57,7 @@ source .venv/bin/activate
 #### Install the required modules
 
 ```sh
-pip install pandas numpy pyplotlib
+pip install pandas numpy matplotlib
 ```
 
 ### Training Programm
@@ -88,7 +88,13 @@ Three plots are also generated for the statistics:
 - `normalized.png`: shows the regression line plotted against the normalized data.
 - `stats.png`: shows the evolution of MSE and $R2$ throughout the training process.
 
+#### carprices.png
+
 ![plot showing the regression line against the data](doc/exemple.png)
+
+#### stats.png
+
+![plot showing how MSE goes donee and R2 up throughout training](doc/stats.png)
 
 File names can be modified in `src/config.py`
 
@@ -179,7 +185,7 @@ $$
 
 #### Loss (Mean Squared Error)
 
-The Mean Squared Error (MSE) measures the average squared difference between the predicted and actual values. It quantifies how for the prediction are from the observations: the lower the MSE, the closer the predictions are to the data.
+The Mean Squared Error (MSE) measures the average squared difference between the predicted and actual values. It quantifies how far the predictions are from the observations: the lower the MSE, the closer the predictions are to the data.
 
 $$
 MSE = \frac{1}{N} \sum_{i=1}^{N} \left( \hat{y_i} - y_i \right) ^2
