@@ -9,7 +9,7 @@ from src.model import Model
 
 class TestRandomator(unittest.TestCase):
     def setUp(self):
-        self.randomator = rd.randomator()
+        self.randomator = rd.Randomator()
 
     def dummyModel(self):
         model = Model((0.2, 0.5))
@@ -25,6 +25,7 @@ class TestRandomator(unittest.TestCase):
         self.assertIsNotNone(self.randomator)
 
     def test_Randomator_file_name(self):
+        self.randomator.setFileName()
         pattern = re.search(r"^randata\d{9}", self.randomator.file)
         self.assertIsNotNone(pattern)
 
@@ -59,3 +60,7 @@ class TestRandomator(unittest.TestCase):
         print("data:", self.randomator.data)
         with self.subTest():
             self.assertEqual(2 * self.randomator.nb_points, self.randomator.data.size)
+            self.assertTrue(0 <= np.all(self.randomator.data <= 100))
+            self.assertTrue(
+                np.allclose(self.randomator.data[1], 0.5 * self.randomator.data[0] + 20)
+            )
