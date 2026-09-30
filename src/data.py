@@ -1,4 +1,5 @@
 import sys
+import json
 import pandas as pd
 import numpy as np
 
@@ -22,14 +23,16 @@ def get_data_csv(file_name):
 
 def get_data_txt(file_name):
     try:
-        params = np.loadtxt(file_name)
+        with open(file_name, "r") as f:
+            data = json.load(f)
+            params = np.array(data["theta0"], ["theta1"])
     except (
         FileNotFoundError,
         PermissionError,
-        pd.errors.ParserError,
-        pd.errors.EmptyDataError,
         UnicodeDecodeError,
         ValueError,
+        KeyError,
+        json.JSONDecodeError,
     ) as e:
         print(f"Error reading {file_name}: {e}", file=sys.stderr)
         sys.exit(1)

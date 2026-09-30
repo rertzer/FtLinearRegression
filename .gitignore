@@ -220,4 +220,4 @@ __marimo__/
 # results 
 *.png
 !doc/*.png
-thetas.txt
+thetas.json
