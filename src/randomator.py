@@ -10,7 +10,7 @@ class Randomator:
         self.rng = np.random.default_rng()
         self.nb_points = int(self.rng.integers(6, 66))
         self.init_model()
-        self.init_data()
+        self.create_data()
 
     def save(self):
         self.setFileName()
@@ -39,14 +39,15 @@ class Randomator:
 
     def init_model(self):
         self.model = Model(self.rng.uniform(0, 1, 2))
-        norm_max = self.rng.uniform(1, 666667, 2)
+        log_max = self.rng.integers(2, 7)
+        norm_max = self.rng.uniform(1, 10**log_max, 2)
         norm_min = norm_max * self.rng.uniform(0, 0.5, 2)
         self.model.norm_mins = np.array(norm_min)
         self.model.norm_range = np.array(norm_max - norm_min)
         self.model.normalized = True
         self.model.setParams(self.model.getRawParams())
 
-    def init_data(self):
+    def create_data(self):
         self.data = np.zeros((2, self.nb_points))
         self.data[X] = self.rng.uniform(
             self.model.norm_mins[X],
@@ -55,7 +56,6 @@ class Randomator:
         )
         self.data[Y] = [self.model.eval(x) for x in self.data[X]]
         self.data = self.data
-        print(self.data)
 
 
 if __name__ == "__main__":

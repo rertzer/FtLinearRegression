@@ -46,7 +46,7 @@ class TestRandomator(unittest.TestCase):
             self.assertTrue(
                 np.array([1, 1]).all()
                 <= self.randomator.model.norm_range.all()
-                <= np.array([666666, 666666]).all()
+                <= np.array([1000000, 1000000]).all()
             )
             self.assertTrue(
                 np.array([0, 0]).all()
@@ -56,8 +56,7 @@ class TestRandomator(unittest.TestCase):
 
     def test_Randomator_Data(self):
         self.dummyModel()
-        self.randomator.init_data()
-        print("data:", self.randomator.data)
+        self.randomator.create_data()
         with self.subTest():
             self.assertEqual(2 * self.randomator.nb_points, self.randomator.data.size)
             self.assertTrue(0 <= np.all(self.randomator.data <= 100))
