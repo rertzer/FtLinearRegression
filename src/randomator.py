@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 from .model import Model
 from .config import *
@@ -14,12 +15,24 @@ class Randomator:
     def save(self):
         self.setFileName()
         np.savetxt(
-            self.file,
+            self.file + ".csv",
             self.data.T.astype(int),
             fmt="%d",
             delimiter=",",
             header="mileage,price",
         )
+        meta = {
+            "theta0": self.model.params[THETA_ZERO],
+            "theta1": self.model.params[THETA_ONE],
+            "nb_points": self.nb_points,
+            "min_X": int(self.model.norm_mins[X]),
+            "max_X": int(self.model.norm_mins[X] + self.model.norm_range[X]),
+            "min_Y": int(self.model.norm_mins[Y]),
+            "max_Y": int(self.model.norm_mins[Y] + self.model.norm_range[Y]),
+        }
+        print(meta)
+        with open(self.file + ".json", "w") as f:
+            json.dump(meta, f, indent=4)
 
     def setFileName(self):
         self.file = "randata" + str(self.rng.integers(0, 1000000000)).zfill(9)
