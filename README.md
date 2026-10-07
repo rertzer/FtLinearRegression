@@ -211,8 +211,8 @@ $$
 
 $$
 SST = \sum_{i=1}^{N} \left( y_i - \bar{y}  \right) ^2
-
 $$
+
 with:
 
 $$
