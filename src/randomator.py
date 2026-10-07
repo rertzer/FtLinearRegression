@@ -55,7 +55,16 @@ class Randomator:
             self.nb_points,
         )
         self.data[Y] = [self.model.eval(x) for x in self.data[X]]
-        self.data = self.data
+
+    def add_variance(self):
+        self.sigma = self.rng.uniform(0.1, 3, 1)
+
+        noise = rng.normal(loc)
+
+        # TODO
+        # in stats add a generic variance calculator
+        # use it to compute the data variance
+        # noise will be proportional to it
 
 
 if __name__ == "__main__":
