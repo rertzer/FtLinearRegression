@@ -198,9 +198,21 @@ $$
 $R^2$ indicates the proportion of the total variation in $y$ that is explained by the regression model. It ranges from 0 to 1, where 1 indicates a perfect fit and 0 means the model explains none of the observed variance.
 
 $$
-R^2 = \frac{\sum_{i=1}^{N} \left( \hat{y_i} - \bar{y}  \right) ^2 }{ \sum_{i=1}^{N} \left( y_i - \bar{y}  \right) ^2 }
+R^2 = \frac{ SSR }{ SST }
 $$
 
+##### Sum of Squares of Residuals (SSR)
+
+$$
+SSR = \sum_{i=1}^{N} \left( \hat{y_i} - \bar{y}  \right) ^2 
+$$
+
+##### Sum of Squares Total (SST)
+
+$$
+SST = \sum_{i=1}^{N} \left( y_i - \bar{y}  \right) ^2
+
+$$
 with:
 
 $$
