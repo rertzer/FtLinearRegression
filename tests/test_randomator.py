@@ -56,7 +56,7 @@ class TestRandomator(unittest.TestCase):
 
     def test_Randomator_Data(self):
         self.dummyModel()
-        self.randomator.create_data()
+        self.randomator.createData()
         with self.subTest():
             self.assertEqual(2 * self.randomator.nb_points, self.randomator.data.size)
             self.assertTrue(0 <= np.all(self.randomator.data <= 100))

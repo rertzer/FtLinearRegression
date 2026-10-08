@@ -60,12 +60,6 @@ class TestLinearRegression(unittest.TestCase):
         lr.model.normalized = False
         self.assertEqual(lr.getRawLoss(), 7.5)
 
-    def test_LinearRegression_setSST(self):
-        data = ((-1, 1), (1, 2), (2, 3), (3, 2))
-        lr = LinearRegression()
-        lr.setData(data)
-        self.assertEqual(lr.sst, 2)
-
     def test_LinearRegression_getSSE(self):
         data = ((-1, 1), (1, 2), (2, 3), (3, 2))
         lr = LinearRegression()

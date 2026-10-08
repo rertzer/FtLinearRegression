@@ -1,22 +1,24 @@
 import sys
 import json
-import numpy as np
-from .data import get_data_csv
+from .getdata import get_data_csv
 from .linearregression import LinearRegression
 from .config import *
 
 
 def ft_training(argv):
 
-    file_name = get_args(argv)
-    df = get_data_csv(file_name)
-    lr = LinearRegression()
-    lr.setData(df.values)
-    lr.normData()
-    lr.train()
-    save_thetas(lr.getParams())
-    lr.print_results()
-    lr.plot()
+    try:
+        file_name = get_args(argv)
+        df = get_data_csv(file_name)
+        lr = LinearRegression()
+        lr.setData(df.values)
+        lr.normData()
+        lr.train()
+        save_thetas(lr.getParams())
+        lr.print_results()
+        lr.plot()
+    except ValueError as e:
+        print(e, file=sys.stderr)
 
     return 0
 

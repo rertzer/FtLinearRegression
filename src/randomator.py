@@ -9,8 +9,8 @@ class Randomator:
     def __init__(self):
         self.rng = np.random.default_rng()
         self.nb_points = int(self.rng.integers(6, 66))
-        self.init_model()
-        self.create_data()
+        self.initModel()
+        self.createData()
 
     def save(self):
         self.setFileName()
@@ -37,7 +37,7 @@ class Randomator:
     def setFileName(self):
         self.file = "randata" + str(self.rng.integers(0, 1000000000)).zfill(9)
 
-    def init_model(self):
+    def initModel(self):
         self.model = Model(self.rng.uniform(0, 1, 2))
         log_max = self.rng.integers(2, 7)
         norm_max = self.rng.uniform(1, 10**log_max, 2)
@@ -47,7 +47,7 @@ class Randomator:
         self.model.normalized = True
         self.model.setParams(self.model.getRawParams())
 
-    def create_data(self):
+    def createData(self):
         self.data = np.zeros((2, self.nb_points))
         self.data[X] = self.rng.uniform(
             self.model.norm_mins[X],
@@ -56,7 +56,7 @@ class Randomator:
         )
         self.data[Y] = [self.model.eval(x) for x in self.data[X]]
 
-    def add_variance(self):
+    def addVariance(self):
         self.sigma = self.rng.uniform(0.1, 3, 1)
 
         noise = rng.normal(loc)
