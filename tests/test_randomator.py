@@ -35,9 +35,6 @@ class TestRandomator(unittest.TestCase):
     def test_Randomator_thetas(self):
         with self.subTest():
             self.assertIsNotNone(self.randomator.model)
-            # thetas = self.randomator.model.params
-            # self.assertTrue(0 <= thetas[0] <= 1)
-            # self.assertTrue(0 <= thetas[1] <= 1)
 
     def test_Randomator_MinMax(self):
         print("mins: ", self.randomator.model.norm_mins)
