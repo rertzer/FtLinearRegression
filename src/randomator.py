@@ -1,7 +1,9 @@
 import numpy as np
 import json
+import math
 
 from .model import Model
+from . import stats
 from .config import *
 
 
@@ -11,6 +13,7 @@ class Randomator:
         self.nb_points = int(self.rng.integers(6, 66))
         self.initModel()
         self.createData()
+        self.addNoise()
 
     def save(self):
         self.setFileName()
@@ -56,15 +59,12 @@ class Randomator:
         )
         self.data[Y] = [self.model.eval(x) for x in self.data[X]]
 
-    def addVariance(self):
-        self.sigma = self.rng.uniform(0.1, 3, 1)
-
-        noise = rng.normal(loc)
-
-        # TODO
-        # in stats add a generic variance calculator
-        # use it to compute the data variance
-        # noise will be proportional to it
+    def addNoise(self):
+        self.sigma = self.rng.uniform(0.1, 0.5, 1)
+        variance = stats.variance(self.data)
+        print("Sigma is ", self.sigma)
+        noise = self.rng.normal(self.data, self.sigma * math.sqrt(variance))
+        self.data = noise
 
 
 if __name__ == "__main__":
