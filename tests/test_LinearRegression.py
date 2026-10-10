@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import unittest
+import math
 
 from src.linearregression import LinearRegression
 from src.config import *
@@ -79,6 +80,13 @@ class TestLinearRegression(unittest.TestCase):
         lr.model.setParams((1, 1))
         lr.setData(data)
         self.assertEqual(lr.getRsquared(), 4.5)
+    
+    def test_LinearRegression_Rsquared_null(self):
+        data = ((0,0), (0,0))
+        lr = LinearRegression()
+        lr.model.setParams((1, 1))
+        lr.setData(data)
+        self.assertTrue(math.isinf(lr.getRsquared()))
 
     def test_LinearRegression_Train(self):
         data = ((0, 1), (1, 2), (2, 3), (3, 4))
@@ -86,6 +94,13 @@ class TestLinearRegression(unittest.TestCase):
         lr.setData(data)
         lr.train()
         np.testing.assert_allclose(lr.model.params, np.array((1, 1)))
+
+    def test_LinearRegression_Train_null(self):
+        data = ((0, 0), (0, 0), (0, 0), (0, 0))
+        lr = LinearRegression()
+        lr.setData(data)
+        lr.train()
+        np.testing.assert_allclose(lr.model.params, np.array((0, 0)))
 
     def test_LinearRegression_LossStats(self):
         data = ((0, 1), (1, 2), (2, 3), (3, 4))
