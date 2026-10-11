@@ -173,7 +173,7 @@ Here an exemple:
 
 ## Unit Test
 
-This project has a full set of unit test. They can be run with:
+This project has a full set of unit tests. They can be run with:
 
 ```sh
 python3 -m unittest discover -s tests
