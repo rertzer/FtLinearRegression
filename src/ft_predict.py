@@ -1,6 +1,6 @@
 import sys
 from .model import Model
-from .data import get_data_txt
+from .getdata import get_data_txt
 
 
 def ft_predict(argv):

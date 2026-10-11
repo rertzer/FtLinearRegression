@@ -7,18 +7,17 @@ from src.model import Model
 class TestModel(unittest.TestCase):
     def test_create_Model_object(self):
         model = Model()
-
         self.assertIsNotNone(model)
 
-    def test_Model_default_params_are_null(self):
+    def test_Model_default_values(self):
         model = Model()
-
-        np.testing.assert_array_equal(model.params, np.array([0, 0]))
+        with self.subTest():
+            np.testing.assert_array_equal(model.params, np.array([0, 0]))
+            self.assertFalse(model.normalized)
 
     def test_Model_init_params(self):
         params = (42, 24)
         model = Model(params)
-
         np.testing.assert_array_equal(model.params, np.array(params))
 
     def test_Model_cannot_have_only_one_param(self):

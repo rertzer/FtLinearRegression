@@ -1,31 +1,49 @@
 import unittest
+import numpy as np
 
-from src.stats import Stats
+from src import stats
+from src.model import Model
 from src.config import *
 
 
 class TestStats(unittest.TestCase):
-    def test_create_Stats_object(self):
-        stats = Stats(LOOPS)
+    def test_stats_sst(self):
+        data = np.array(((-1, 1), (1, 2), (2, 3), (3, 2)))
+        with self.subTest():
+            self.assertEqual(stats.sst(data), 2)
+            data = np.array(((1, 0), (1, 0)))
+            self.assertEqual(stats.sst(data), 0)
+            data = np.array(((1, 1), (1, 2), (1, 6)))
+            self.assertEqual(stats.sst(data), 14)
 
-        self.assertIsNotNone(stats)
+    def test_stats_y_mean(self):
+        data = np.array(((-1, 1), (1, 2), (2, 3), (3, 2)))
+        with self.subTest():
+            self.assertEqual(stats.y_mean(data), 2)
+            data = np.array(((1, 0), (1, 0)))
+            self.assertEqual(stats.y_mean(data), 0)
+            data = np.array(((1, 1), (1, 2), (1, 6)))
+            self.assertEqual(stats.y_mean(data), 3)
 
-    def test_records_has_len_loops(self):
-        stats = Stats(LOOPS)
-        self.assertEqual(stats.records.shape, (2, LOOPS))
+    def test_stats_sse(self):
+        data = np.array(((-1, 1), (1, 2), (2, 3), (3, 2)))
+        model = Model((1, 1))
+        model.setParams((1, 1))
+        with self.subTest():
+            self.assertEqual(stats.sse(data, model), 9)
 
-    def test_stats_getLoss(self):
-        stats = Stats(42)
-        losses = (11, 22, 33, 34, 122, 244, -12, 0.42)
-        for l in losses:
-            with self.subTest():
-                stats.records[RSQUARED][-1] = l
-                self.assertEqual(stats.getRsquared(), l)
+    def test_stats_r_squared(self):
+        data = np.array(((-1, 1), (1, 2), (2, 3), (3, 2)))
+        model = Model((1, 1))
+        self.assertEqual(stats.r_squared(data, model), 4.5)
 
-    def test_stats_getRsquared(self):
-        stats = Stats(42)
-        rs = (1, 2, 3, 4, 12, 24, -2, 0.42)
-        for r in rs:
-            with self.subTest():
-                stats.records[RSQUARED][-1] = r
-                self.assertEqual(stats.getRsquared(), r)
+    def test_stats_variance(self):
+        with self.subTest():
+            data = np.array(((1, 0), (33, 0), (-12, 0)))
+            self.assertAlmostEqual(stats.variance(data), 0)
+
+            data = np.array(((1, 17), (33, 44), (-12, 42)))
+            self.assertAlmostEqual(stats.variance(data), 150.8888, 3)
+
+            data = np.array(((1, 1), (1, 2), (1, 6)))
+            self.assertAlmostEqual(stats.variance(data), 14 / 3, 3)

@@ -3,61 +3,49 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from .model import Model
 from .config import *
-from .stats import Stats
+from .trainingstats import TrainingStats
+from . import stats
 
 
 class LinearRegression:
     def __init__(self, learning_step=DEFAULT_STEP):
         self.model = Model()
         self.learning_step = learning_step
-        self.normalized = False
         self.data = None
         self.loops = LOOPS
 
     def setData(self, data):
         self.data = np.array(data)
-        self.setSST()
 
     def normData(self):
-        if self.data is not None:
-            self.raw_data = self.data.copy()
-            self.norm_mins = np.min(self.data, axis=0)
-            self.norm_range = np.max(self.data, axis=0) - self.norm_mins
-            self.data = (self.data - self.norm_mins) / self.norm_range
-            self.setSST()
-            self.normalized = True
+        if self.data is None:
+            raise ValueError("data can't be None")
+        self.raw_data = self.data.copy()
+        self.data = self.model.normData(self.data)
 
     def getParams(self):
-        params = self.model.params.copy()
-        if self.normalized is True:
-            theta_one = params[THETA_ONE] * self.norm_range[Y] / self.norm_range[X]
-            theta_zero = (
-                self.norm_mins[Y]
-                + params[THETA_ZERO] * self.norm_range[Y]
-                - theta_one * self.norm_mins[X]
-            )
-
-            params[THETA_ZERO] = theta_zero
-            params[THETA_ONE] = theta_one
-        return params
+        return self.model.getRawParams()
 
     def getPredictedDistance(self):
-        assert self.data is not None
+        if self.data is None:
+            raise ValueError("data can't be None")
         return self.model.eval(self.data[:, X]) - self.data[:, Y]
 
     def getDelta(self):
+        if self.data is None:
+            raise ValueError("data can't be None")
         gap = self.getPredictedDistance()
 
         delta_zero = self.learning_step * gap.sum() / gap.size
 
-        assert self.data is not None
         gap = gap * self.data[:, X]
         delta_one = self.learning_step * gap.sum() / gap.size
 
         return np.array((delta_zero, delta_one))
 
     def getLoss(self):
-        assert self.data is not None
+        if self.data is None:
+            raise ValueError("data can't be None")
         squares = self.getPredictedDistance() ** 2
         return squares.sum() / len(self.data)
 
@@ -68,21 +56,13 @@ class LinearRegression:
         return squares.sum() / len(self.raw_data)
 
     def getRsquared(self):
-        return self.getSSE() / self.sst
-
-    def setSST(self):
-        assert self.data is not None
-        self.y_mean = self.data[:, Y].mean()
-        y_dist_squared = (self.data[:, Y] - self.y_mean) ** 2
-        self.sst = y_dist_squared.sum()
+        return stats.r_squared(self.data, self.model)
 
     def getSSE(self):
-        assert self.data is not None
-        squares = (self.model.eval(self.data[:, X]) - self.y_mean) ** 2
-        return squares.sum()
+        return stats.sse(self.data, self.model)
 
     def train(self):
-        self.stats = Stats(self.loops)
+        self.stats = TrainingStats(self.loops)
         for i in range(self.loops):
             self.model.updateParams(self.getDelta())
             self.stats.records[LOSS][i] = self.getLoss()
