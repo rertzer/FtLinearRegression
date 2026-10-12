@@ -32,7 +32,6 @@ class LinearRegression:
 
         distance = self.getPredictedDistance()
         delta_zero = self.getRatedMean(distance)
-
         delta_one = self.getRatedMean(distance * self.data[:, X])
 
         return np.array((delta_zero, delta_one))
