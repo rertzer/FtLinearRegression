@@ -21,11 +21,11 @@ def get_data_csv(file_name):
     return df
 
 
-def get_data_txt(file_name):
+def get_data_json(file_name):
     try:
         with open(file_name, "r") as f:
             data = json.load(f)
-            params = np.array(data["theta0"], ["theta1"])
+            params = np.array((data["theta0"], data["theta1"]))
     except (
         FileNotFoundError,
         PermissionError,
