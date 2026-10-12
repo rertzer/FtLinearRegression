@@ -1,12 +1,13 @@
 import sys
 from .model import Model
-from .getdata import get_data_txt
+from .getdata import get_data_json
 
 
 def ft_predict(argv):
 
-    mileage, file_name = get_arguments(argv)
-    params = get_data_txt(file_name)
+    file_name = get_arguments(argv)
+    mileage = get_mileage()
+    params = get_data_json(file_name)
     model = Model(params)
     print(params)
     print(
@@ -17,20 +18,25 @@ def ft_predict(argv):
 
 
 def get_arguments(argv):
-    try:
-        if len(argv) == 2:
-            return (float(argv[1]), "thetas.txt")
-        elif len(argv) == 3:
-            return (float(argv[1]), argv[2])
-        else:
-            print(
-                "Usage: python3 -m src.ft_predict 42000 <paramfile.txt>",
-                file=sys.stderr,
-            )
-            sys.exit(1)
-    except ValueError:
-        print("Error: non numerical value", file=sys.stderr)
+    if len(argv) == 1:
+        return "thetas.json"
+    elif len(argv) == 2:
+        return argv[1]
+    else:
+        print(
+            "Usage: python3 -m src.ft_predict <paramfile.json>",
+            file=sys.stderr,
+        )
         sys.exit(1)
+
+
+def get_mileage():
+    try:
+        mileage = float(input("Give a car mileage:"))
+    except ValueError as e:
+        print(e)
+        sys.exit(1)
+    return mileage
 
 
 if __name__ == "__main__":
