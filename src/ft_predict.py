@@ -32,7 +32,7 @@ def get_arguments(argv):
 
 def get_mileage():
     try:
-        mileage = float(input("Give a car mileage:"))
+        mileage = float(input("Enter a car mileage: "))
     except ValueError as e:
         print(e)
         sys.exit(1)
