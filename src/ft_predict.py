@@ -9,7 +9,6 @@ def ft_predict(argv):
     mileage = get_mileage()
     params = get_data_json(file_name)
     model = Model(params)
-    print(params)
     print(
         f"For a {mileage} km mileage, the estimated price is {round(model.eval(mileage))}"
     )

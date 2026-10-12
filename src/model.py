@@ -31,15 +31,15 @@ class Model:
     def getRawParams(self):
         raw_params = self.params.copy()
         if self.normalized is True:
-            raw_params[THETA_ONE] = self.getRawX(raw_params[THETA_ONE])
-            raw_params[THETA_ZERO] = self.getRawY(
+            raw_params[THETA_ONE] = self.getRawThetaOne(raw_params[THETA_ONE])
+            raw_params[THETA_ZERO] = self.getRawThetaZero(
                 raw_params[THETA_ONE], raw_params[THETA_ZERO]
             )
 
         return raw_params
 
-    def getRawX(self, x):
+    def getRawThetaOne(self, x):
         return x * self.norm_range[Y] / self.norm_range[X]
 
-    def getRawY(self, raw_x, y):
+    def getRawThetaZero(self, raw_x, y):
         return self.norm_mins[Y] + y * self.norm_range[Y] - raw_x * self.norm_mins[X]

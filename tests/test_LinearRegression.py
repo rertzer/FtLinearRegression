@@ -12,13 +12,13 @@ class TestLinearRegression(unittest.TestCase):
         lr = LinearRegression()
         self.assertIsNotNone(lr)
 
-    def test_LinearRegresstion_default_learning_step_value(self):
+    def test_LinearRegresstion_default_learning_rate_value(self):
         lr = LinearRegression()
-        self.assertEqual(lr.learning_step, 0.01)
+        self.assertEqual(lr.learning_rate, 0.01)
 
-    def test_LinearRegression_init_with_learning_step_value(self):
+    def test_LinearRegression_init_with_learning_rate_value(self):
         lr = LinearRegression(0.2)
-        self.assertEqual(lr.learning_step, 0.2)
+        self.assertEqual(lr.learning_rate, 0.2)
 
     def test_LinearRegression_set_data(self):
         data = np.array(((1, 2), (3, 4), (5, 6)))
@@ -74,9 +74,9 @@ class TestLinearRegression(unittest.TestCase):
         lr.model.setParams((1, 1))
         lr.setData(data)
         self.assertEqual(lr.getRsquared(), 4.5)
-    
+
     def test_LinearRegression_Rsquared_null(self):
-        data = ((0,0), (0,0))
+        data = ((0, 0), (0, 0))
         lr = LinearRegression()
         lr.model.setParams((1, 1))
         lr.setData(data)

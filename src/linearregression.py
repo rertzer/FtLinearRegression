@@ -8,9 +8,9 @@ from . import stats
 
 
 class LinearRegression:
-    def __init__(self, learning_step=DEFAULT_STEP):
+    def __init__(self, learning_rate=DEFAULT_STEP):
         self.model = Model()
-        self.learning_step = learning_step
+        self.learning_rate = learning_rate
         self.data = None
         self.loops = LOOPS
 
@@ -26,22 +26,24 @@ class LinearRegression:
     def getParams(self):
         return self.model.getRawParams()
 
+    def getDelta(self):
+        if self.data is None:
+            raise ValueError("data can't be None")
+
+        distance = self.getPredictedDistance()
+        delta_zero = self.getRatedMean(distance)
+
+        delta_one = self.getRatedMean(distance * self.data[:, X])
+
+        return np.array((delta_zero, delta_one))
+
     def getPredictedDistance(self):
         if self.data is None:
             raise ValueError("data can't be None")
         return self.model.eval(self.data[:, X]) - self.data[:, Y]
 
-    def getDelta(self):
-        if self.data is None:
-            raise ValueError("data can't be None")
-        gap = self.getPredictedDistance()
-
-        delta_zero = self.learning_step * gap.sum() / gap.size
-
-        gap = gap * self.data[:, X]
-        delta_one = self.learning_step * gap.sum() / gap.size
-
-        return np.array((delta_zero, delta_one))
+    def getRatedMean(self, values):
+        return self.learning_rate * values.sum() / values.size
 
     def getLoss(self):
         if self.data is None:
@@ -67,6 +69,8 @@ class LinearRegression:
             self.model.updateParams(self.getDelta())
             self.stats.records[LOSS][i] = self.getLoss()
             self.stats.records[RSQUARED][i] = self.getRsquared()
+
+    # ================== Print and Plot ======================================
 
     def print_results(self):
         p = self.getParams()
