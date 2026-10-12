@@ -40,7 +40,7 @@ class Randomator:
             "min_Y": int(self.model.norm_mins[Y]),
             "max_Y": int(self.model.norm_mins[Y] + self.model.norm_range[Y]),
             "noise_ratio": float(self.sigma[0]),
-            "R²": r_squared,
+            "R2": r_squared,
         }
         print(meta)
         with open(self.file + ".json", "w") as f:
