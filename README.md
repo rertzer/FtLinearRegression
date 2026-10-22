@@ -63,6 +63,11 @@ source .venv/bin/activate
 ```sh
 pip install pandas numpy matplotlib
 ```
+ Or:
+
+ ```sh
+ pip install -r requirements.txt
+ ```
 
 ### Training Program
 
